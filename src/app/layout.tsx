@@ -14,8 +14,34 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Avocat Next App",
-  description: "Avocat Next App Migration",
+  title: {
+    default: "Cabinet d'Avocat Mahi Fares | Boufarik, Blida",
+    template: "%s | Cabinet d'Avocat Mahi Fares"
+  },
+  description: "Cabinet d'avocat spécialisé à Boufarik, Blida. Prenez rendez-vous avec Maître Mahi Fares pour des conseils juridiques, affaires civiles, et pénales. محامي في بوفاريك.",
+  keywords: ["avocat", "avocat boufarik", "avocat blida", "cabinet avocat", "droit pénal", "droit civil", "محامي", "محامي بوفاريك", "مكتب محاماة بوفاريك", "استشارة قانونية", "Mahi Fares", "avocat algerie", "lawyer algeria"],
+  authors: [{ name: "Maître Mahi Fares" }],
+  creator: "Cabinet Mahi Fares",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    alternateLocale: "ar_DZ",
+    title: "Cabinet d'Avocat Mahi Fares | Boufarik",
+    description: "Votre partenaire de confiance pour la défense de vos droits à Boufarik et ses environs. محامي في بوفاريك.",
+    siteName: "Cabinet d'Avocat Mahi Fares",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({
