@@ -2,12 +2,55 @@
 import { useLanguage } from '../LanguageContext';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useState } from 'react';
+import { Toaster, toast } from 'react-hot-toast';
+import { sendEmailAction, type ContactFormData } from '../app/actions/contact';
+
+const contactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters."),
+  email: z.string().email("Invalid email address."),
+  subject: z.string().min(5, "Subject must be at least 5 characters."),
+  message: z.string().min(10, "Message must be at least 10 characters."),
+});
 
 const Contact = () => {
   const { lang, dir, t } = useLanguage();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+  });
+
+  const onSubmit = async (data: ContactFormData) => {
+    setIsSubmitting(true);
+    const loadingToast = toast.loading(lang === 'ar' ? "جاري الإرسال" : "Envoi en cours...");
+    
+    try {
+      const result = await sendEmailAction(data);
+      if (result.success) {
+        toast.success(lang === 'ar' ? "تم إرسال رسالتك بنجاح!" : "Votre message a été envoyé avec succès !", { id: loadingToast });
+        reset();
+      } else {
+        toast.error(lang === 'ar' ? "فشل إرسال الرسالة، حاول مرة أخرى." : "Échec de l'envoi, veuillez réessayer.", { id: loadingToast });
+      }
+    } catch {
+      toast.error(lang === 'ar' ? "حدث خطأ غير متوقع." : "Une erreur inattendue s'est produite.", { id: loadingToast });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section id="contact" className="bg-white py-32 overflow-hidden">
+      <Toaster position="bottom-center" />
       <div className="container">
         <div className="grid md:grid-cols-2 gap-24">
           <motion.div
@@ -75,28 +118,57 @@ const Contact = () => {
             viewport={{ once: true }}
             className="bg-gray-50 p-12 md:p-16 border border-gray-100 flex flex-col justify-center"
           >
-            <form className="flex flex-col gap-10" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
-                <div className="flex flex-col gap-3">
+            <form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div className="flex flex-col gap-2">
                   <label className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'الاسم الكامل' : 'Nom Complet'}</label>
-                  <input type="text" className="py-4 bg-transparent border-b-2 border-gray-200 outline-none focus:border-gold transition-colors text-lg" />
+                  <input 
+                    type="text" 
+                    {...register("name")}
+                    className={`py-3 bg-transparent border-b-2 outline-none transition-colors text-lg ${errors.name ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-gold'}`} 
+                  />
+                  {errors.name && <span className="text-red-500 text-xs">{errors.name.message}</span>}
                 </div>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
                   <label className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'البريد الإلكتروني' : 'Email'}</label>
-                  <input type="email" className="py-4 bg-transparent border-b-2 border-gray-200 outline-none focus:border-gold transition-colors text-lg" />
+                  <input 
+                    type="email" 
+                    {...register("email")}
+                    className={`py-3 bg-transparent border-b-2 outline-none transition-colors text-lg ${errors.email ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-gold'}`} 
+                  />
+                  {errors.email && <span className="text-red-500 text-xs">{errors.email.message}</span>}
                 </div>
               </div>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2">
                 <label className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'الموضوع' : 'Objet de la demande'}</label>
-                <input type="text" className="py-4 bg-transparent border-b-2 border-gray-200 outline-none focus:border-gold transition-colors text-lg" />
+                <input 
+                  type="text" 
+                  {...register("subject")}
+                  className={`py-3 bg-transparent border-b-2 outline-none transition-colors text-lg ${errors.subject ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-gold'}`} 
+                />
+                {errors.subject && <span className="text-red-500 text-xs">{errors.subject.message}</span>}
               </div>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2">
                 <label className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'الرسالة' : 'Message'}</label>
-                <textarea rows={4} className="py-4 bg-transparent border-b-2 border-gray-200 outline-none focus:border-gold transition-colors text-lg resize-none"></textarea>
+                <textarea 
+                  rows={4} 
+                  {...register("message")}
+                  className={`py-3 bg-transparent border-b-2 outline-none transition-colors text-lg resize-none ${errors.message ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-gold'}`}
+                ></textarea>
+                {errors.message && <span className="text-red-500 text-xs">{errors.message.message}</span>}
               </div>
-              <button className="group btn-primary !bg-primary !text-white hover:!bg-gold hover:!text-primary !py-5 !justify-center !text-sm !font-bold !uppercase !tracking-[0.4em] mt-6 flex items-center gap-4">
-                {lang === 'ar' ? 'إرسال الاستفسار' : 'Envoyer la demande'}
-                <Send size={18} className={`transition-transform ${dir === 'rtl' ? 'scale-x-[-1] group-hover:-translate-x-1' : 'group-hover:translate-x-1'} group-hover:-translate-y-1`} />
+              <button 
+                type="submit"
+                disabled={isSubmitting}
+                className="group btn-primary !bg-primary !text-white hover:!bg-gold hover:!text-primary !py-5 !justify-center !text-sm !font-bold !uppercase !tracking-[0.4em] mt-6 flex items-center gap-4 disabled:opacity-75 disabled:cursor-not-allowed"
+              >
+                {isSubmitting 
+                  ? (lang === 'ar' ? 'جاري الإرسال...' : 'Envoi en cours...') 
+                  : (lang === 'ar' ? 'إرسال الاستفسار' : 'Envoyer la demande')
+                }
+                {!isSubmitting && (
+                  <Send size={18} className={`transition-transform flex-shrink-0 ${dir === 'rtl' ? 'scale-x-[-1] group-hover:-translate-x-1' : 'group-hover:translate-x-1'} group-hover:-translate-y-1`} />
+                )}
               </button>
             </form>
           </motion.div>

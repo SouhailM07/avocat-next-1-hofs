@@ -1,0 +1,1 @@
+src/app/actions/contact.ts(76,77): error TS2339: Property 'errors' does not exist on type 'ZodError<unknown>'.
