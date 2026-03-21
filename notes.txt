@@ -1,0 +1,3 @@
+- missing nodemailer setup
+- missing social media contact
+- missing .env

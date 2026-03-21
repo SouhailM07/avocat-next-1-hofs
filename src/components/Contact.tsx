@@ -9,11 +9,11 @@ import { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import { sendEmailAction, type ContactFormData } from '../app/actions/contact';
 
-const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters."),
-  email: z.string().email("Invalid email address."),
-  subject: z.string().min(5, "Subject must be at least 5 characters."),
-  message: z.string().min(10, "Message must be at least 10 characters."),
+const getContactSchema = (lang: 'ar' | 'fr') => z.object({
+  name: z.string().min(2, lang === 'ar' ? "الاسم يجب أن يتكون من حرفين على الأقل." : "Le nom doit comporter au moins 2 caractères."),
+  email: z.string().email(lang === 'ar' ? "عنوان البريد الإلكتروني غير صالح." : "Adresse e-mail invalide."),
+  subject: z.string().min(5, lang === 'ar' ? "الموضوع يجب أن يتكون من 5 أحرف على الأقل." : "Le sujet doit comporter au moins 5 caractères."),
+  message: z.string().min(10, lang === 'ar' ? "الرسالة يجب أن تتكون من 10 أحرف على الأقل." : "Le message doit comporter au moins 10 caractères."),
 });
 
 const Contact = () => {
@@ -26,7 +26,7 @@ const Contact = () => {
     reset,
     formState: { errors },
   } = useForm<ContactFormData>({
-    resolver: zodResolver(contactSchema),
+    resolver: zodResolver(getContactSchema(lang as 'ar' | 'fr')),
   });
 
   const onSubmit = async (data: ContactFormData) => {
