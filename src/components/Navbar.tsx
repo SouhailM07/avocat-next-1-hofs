@@ -87,6 +87,7 @@ const Navbar = () => {
         {/* Mobile Toggle Controls */}
         <div className="lg:hidden flex items-center gap-3 shrink-0">
           <button
+            aria-label={lang === "ar" ? "تبديل اللغة" : "Changer la langue"}
             onClick={toggleLanguage}
             className={`p-2 transition-colors hover:text-gold ${iconClass}`}
           >
@@ -94,6 +95,7 @@ const Navbar = () => {
           </button>
           <button
             onClick={() => setIsOpen(!isOpen)}
+            aria-label={lang === "ar" ? "القائمة" : "Menu"}
             className={`p-2 transition-colors hover:text-gold ${iconClass}`}
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
