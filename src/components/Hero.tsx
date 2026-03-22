@@ -2,6 +2,7 @@
 import { useLanguage } from '../LanguageContext';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Phone } from 'lucide-react';
+import Image from 'next/image';
 
 const Hero = () => {
   const { dir, t } = useLanguage();
@@ -9,12 +10,17 @@ const Hero = () => {
   return (
     <section id="home" className="relative h-screen flex items-center overflow-hidden bg-primary">
       {/* Background Image with Layered Overlays */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 transform scale-105"
-        style={{ 
-          backgroundImage: 'url("/assets/legal_hero_bg.webp")',
-        }}
-      />
+      <div className="absolute inset-0 z-0 transition-transform duration-1000 transform scale-105">
+        <Image 
+          src="/assets/legal_hero_bg.webp"
+          alt="Office de Maître Mahi Fares"
+          fill
+          priority
+          style={{ objectFit: 'cover' }}
+          className="opacity-80"
+          sizes="100vw"
+        />
+      </div>
       <div className="absolute inset-0 z-1 bg-gradient-to-r from-primary/95 via-primary/60 to-transparent" />
       <div className="absolute inset-0 z-1 bg-black/20" />
       

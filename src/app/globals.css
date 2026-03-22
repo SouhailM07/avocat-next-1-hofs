@@ -7,18 +7,14 @@
   --color-secondary-light: #d4bd8a;
   --color-gold: #C8A96A;
   --color-bg: #f9f9f9;
-  --font-sans: "Inter", "Cairo", sans-serif;
-  --font-serif: "Amiri", serif;
+  --font-sans: var(--font-cairo), var(--font-geist-sans), sans-serif;
+  --font-serif: var(--font-amiri), serif;
 }
 
 @layer base {
   body {
     @apply bg-bg text-gray-900 leading-relaxed overflow-x-hidden;
     font-family: var(--font-sans);
-  }
-
-  [dir="rtl"] {
-    font-family: "Cairo", sans-serif;
   }
 
   h1,
@@ -28,12 +24,6 @@
   h5,
   h6 {
     @apply font-serif text-primary font-bold;
-  }
-
-  [dir="rtl"] h1,
-  [dir="rtl"] h2,
-  [dir="rtl"] h3 {
-    font-family: "Amiri", serif;
   }
 }
 
