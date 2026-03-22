@@ -121,8 +121,9 @@ const Contact = () => {
             <form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'الاسم الكامل' : 'Nom Complet'}</label>
+                  <label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'الاسم الكامل' : 'Nom Complet'}</label>
                   <input 
+                    id="name"
                     type="text" 
                     {...register("name")}
                     className={`py-3 bg-transparent border-b-2 outline-none transition-colors text-lg ${errors.name ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-gold'}`} 
@@ -130,8 +131,9 @@ const Contact = () => {
                   {errors.name && <span className="text-red-500 text-xs">{errors.name.message}</span>}
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'البريد الإلكتروني' : 'Email'}</label>
+                  <label htmlFor="email" className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'البريد الإلكتروني' : 'Email'}</label>
                   <input 
+                    id="email"
                     type="email" 
                     {...register("email")}
                     className={`py-3 bg-transparent border-b-2 outline-none transition-colors text-lg ${errors.email ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-gold'}`} 
@@ -140,8 +142,9 @@ const Contact = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'الموضوع' : 'Objet de la demande'}</label>
+                <label htmlFor="subject" className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'الموضوع' : 'Objet de la demande'}</label>
                 <input 
+                  id="subject"
                   type="text" 
                   {...register("subject")}
                   className={`py-3 bg-transparent border-b-2 outline-none transition-colors text-lg ${errors.subject ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-gold'}`} 
@@ -149,8 +152,9 @@ const Contact = () => {
                 {errors.subject && <span className="text-red-500 text-xs">{errors.subject.message}</span>}
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'الرسالة' : 'Message'}</label>
+                <label htmlFor="message" className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'الرسالة' : 'Message'}</label>
                 <textarea 
+                  id="message"
                   rows={4} 
                   {...register("message")}
                   className={`py-3 bg-transparent border-b-2 outline-none transition-colors text-lg resize-none ${errors.message ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-gold'}`}
