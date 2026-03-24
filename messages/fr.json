@@ -1,0 +1,79 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "services": "Services",
+    "about": "À propos",
+    "testimonials": "Témoignages",
+    "contact": "Contact"
+  },
+  "common": {
+    "experience": "Ans d'expérience",
+    "success_cases": "Affaires réussies",
+    "location": "Boufarik, Blida",
+    "consultation": "Demander une consultation",
+    "more": "Détails",
+    "loading": "Envoi en cours...",
+    "send": "Envoyer la demande",
+    "success": "Votre message a été envoyé avec succès !",
+    "error": "Échec de l'envoi, veuillez réessayer.",
+    "unexpected_error": "Une erreur inattendue s'est produite."
+  },
+  "hero": {
+    "title": "Maître Mahi Fares",
+    "subtitle": "Avocat agréé près le tribunal de Boufarik et la cour de Blida. Agréé à la Cour Suprême et Conseil d'État",
+    "description": "Expertise juridique fiable à votre service pour toutes vos affaires juridiques, avec un engagement total envers la rigueur et le professionnalisme.",
+    "cta_primary": "Prendre rendez-vous",
+    "cta_secondary": "Contactez-nous"
+  },
+  "about": {
+    "title": "À propos de nous",
+    "content": "Maître Mahi Fares est un avocat professionnel offrant des services juridiques complets à Boufarik et ses environs, spécialisé dans la défense et le conseil juridique.",
+    "subtitle": "Qui est Maître?"
+  },
+  "services": {
+    "title": "Services Juridiques",
+    "subtitle": "Nos Domaines",
+    "description": "Nous offrons une large gamme de services juridiques avec un haut professionnalisme et une rigueur extrême.",
+    "item_description": "Nous fournissons des conseils de défense et une représentation juridique complète pour garantir vos droits.",
+    "items": [
+      "Conseil Juridique",
+      "Affaires Civiles",
+      "Affaires Pénales",
+      "Droit Commercial",
+      "Représentation devant les tribunaux"
+    ]
+  },
+  "coverage": {
+    "title": "Zone de Service",
+    "content": "Nous offrons nos services à Boufarik et dans les régions avoisinantes."
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "description": "Nous sommes là pour répondre à toutes vos questions juridiques. N'hésitez pas à nous contacter pour prendre rendez-vous ou pour obtenir une consultation.",
+    "location_label": "Localisation",
+    "location_value": "56 rue des freres rettal boufarik 09400",
+    "phone_label": "Ligne Directe",
+    "email_label": "Email",
+    "hours_label": "Horaires",
+    "hours_value": "Dimanche - Jeudi: 09h00 - 17h00",
+    "name_label": "Nom Complet",
+    "subject_label": "Objet de la demande",
+    "message_label": "Message",
+    "validation": {
+      "name_min": "Le nom doit comporter au moins 2 caractères.",
+      "email_invalid": "Adresse e-mail invalide.",
+      "subject_min": "Le sujet doit comporter au moins 5 caractères.",
+      "message_min": "Le message doit comporter au moins 10 caractères."
+    }
+  },
+  "footer": {
+    "description": "Avocat agréé près le tribunal de Boufarik et la cour de Blida. Agréé à la Cour Suprême et Conseil d'État. Nous nous engageons à fournir le plus haut niveau de représentation juridique pour garantir vos droits et servir la justice.",
+    "navigation": "Navigation",
+    "contact": "Contact",
+    "phone": "Tél",
+    "whatsapp": "WhatsApp",
+    "location": "Localisation",
+    "email": "Email",
+    "rights": "Tous droits réservés © 2024 Maître Mahi Fares"
+  }
+}

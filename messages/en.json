@@ -1,0 +1,79 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "testimonials": "Testimonials",
+    "contact": "Contact"
+  },
+  "common": {
+    "experience": "Years of Experience",
+    "success_cases": "Successful Cases",
+    "location": "Boufarik, Blida",
+    "consultation": "Request Consultation",
+    "more": "Details",
+    "loading": "Sending...",
+    "send": "Send Request",
+    "success": "Your message has been sent successfully!",
+    "error": "Failed to send message, please try again.",
+    "unexpected_error": "An unexpected error occurred."
+  },
+  "hero": {
+    "title": "Maître Mahi Fares",
+    "subtitle": "Advocate accredited to the Court of Boufarik and the Court of Blida. Accredited to the Supreme Court and Council of State",
+    "description": "Reliable legal expertise at your service for all your legal matters, with total commitment to rigor and professionalism.",
+    "cta_primary": "Book an Appointment",
+    "cta_secondary": "Contact Us"
+  },
+  "about": {
+    "title": "About Us",
+    "content": "Maître Mahi Fares is a professional lawyer providing comprehensive legal services in Boufarik and its surroundings, specializing in legal defense and consultancy.",
+    "subtitle": "Who is the Lawyer?"
+  },
+  "services": {
+    "title": "Legal Services",
+    "subtitle": "Our Fields",
+    "description": "We offer a wide range of legal services with high professionalism and extreme rigor.",
+    "item_description": "We provide defense advice and complete legal representation to guarantee your rights.",
+    "items": [
+      "Legal Consultation",
+      "Civil Cases",
+      "Criminal Cases",
+      "Commercial Law",
+      "Court Representation"
+    ]
+  },
+  "coverage": {
+    "title": "Service Area",
+    "content": "We offer our services in Boufarik and nearby regions."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "We are here to answer all your legal inquiries. Feel free to contact us to book an appointment or for a consultation.",
+    "location_label": "Location",
+    "location_value": "56 rue des freres rettal boufarik 09400",
+    "phone_label": "Direct Line",
+    "email_label": "Email",
+    "hours_label": "Hours",
+    "hours_value": "Sunday - Thursday: 09:00 - 17:00",
+    "name_label": "Full Name",
+    "subject_label": "Subject of Request",
+    "message_label": "Message",
+    "validation": {
+      "name_min": "Name must be at least 2 characters.",
+      "email_invalid": "Invalid email address.",
+      "subject_min": "Subject must be at least 5 characters.",
+      "message_min": "Message must be at least 10 characters."
+    }
+  },
+  "footer": {
+    "description": "Advocate accredited to the Court of Boufarik and the Court of Blida. Accredited to the Supreme Court and Council of State. We are committed to providing the highest level of legal representation to guarantee your rights and serve justice.",
+    "navigation": "Navigation",
+    "contact": "Contact",
+    "phone": "Tel",
+    "whatsapp": "WhatsApp",
+    "location": "Location",
+    "email": "Email",
+    "rights": "All rights reserved © 2024 Maître Mahi Fares"
+  }
+}

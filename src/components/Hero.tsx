@@ -1,11 +1,13 @@
 "use client";
-import { useLanguage } from '../LanguageContext';
+import { useTranslations, useLocale } from 'next-intl';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Phone } from 'lucide-react';
 import Image from 'next/image';
 
 const Hero = () => {
-  const { dir, t } = useLanguage();
+  const t = useTranslations();
+  const locale = useLocale();
+  const dir = locale === 'ar' ? 'rtl' : 'ltr';
 
   return (
     <section id="home" className="relative h-screen flex items-center overflow-hidden bg-primary">
@@ -40,7 +42,7 @@ const Hero = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-5xl sm:text-6xl md:text-8xl mb-6 sm:mb-8 text-white leading-[1.1] font-serif tracking-tight"
           >
-            {t.hero.title}
+            {t('hero.title')}
           </motion.h1>
           
           <motion.p 
@@ -49,7 +51,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl sm:text-2xl md:text-3xl text-gold mb-4 italic font-medium break-words"
           >
-            {t.hero.subtitle}
+            {t('hero.subtitle')}
           </motion.p>
           
           <motion.p 
@@ -58,7 +60,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-base sm:text-lg md:text-xl text-white/80 mb-8 sm:mb-12 max-w-xl leading-relaxed"
           >
-            {t.hero.description}
+            {t('hero.description')}
           </motion.p>
           
           <motion.div 
@@ -68,12 +70,12 @@ const Hero = () => {
             className="flex flex-wrap gap-5"
           >
             <a href="#contact" className="group btn-primary px-6 py-4 md:px-10 md:py-5 bg-gold hover:bg-white text-primary rounded-none font-bold uppercase tracking-widest text-xs md:text-sm flex items-center justify-center gap-3 w-full sm:w-auto">
-              {t.hero.cta_primary}
+              {t('hero.cta_primary')}
               {dir === 'rtl' ? <ArrowLeft size={18} className="group-hover:-translate-x-2 transition-transform" /> : <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />}
             </a>
             <a href="tel:0793704284" className="btn-secondary px-6 py-4 md:px-10 md:py-5 border-white/30 text-white rounded-none font-bold uppercase tracking-widest text-xs md:text-sm flex items-center justify-center gap-3 hover:bg-white/10 w-full sm:w-auto">
               <Phone size={18} />
-              {t.hero.cta_secondary}
+              {t('hero.cta_secondary')}
             </a>
           </motion.div>
         </div>

@@ -1,5 +1,5 @@
 "use client";
-import { useLanguage } from '../LanguageContext';
+import { useTranslations, useLocale } from 'next-intl';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -7,18 +7,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
-import { sendEmailAction, type ContactFormData } from '../app/actions/contact';
-
-const getContactSchema = (lang: 'ar' | 'fr') => z.object({
-  name: z.string().min(2, lang === 'ar' ? "الاسم يجب أن يتكون من حرفين على الأقل." : "Le nom doit comporter au moins 2 caractères."),
-  email: z.string().email(lang === 'ar' ? "عنوان البريد الإلكتروني غير صالح." : "Adresse e-mail invalide."),
-  subject: z.string().min(5, lang === 'ar' ? "الموضوع يجب أن يتكون من 5 أحرف على الأقل." : "Le sujet doit comporter au moins 5 caractères."),
-  message: z.string().min(10, lang === 'ar' ? "الرسالة يجب أن تتكون من 10 أحرف على الأقل." : "Le message doit comporter au moins 10 caractères."),
-});
+import { sendEmailAction, type ContactFormData } from '@/app/[locale]/actions/contact';
 
 const Contact = () => {
-  const { lang, dir, t } = useLanguage();
+  const t = useTranslations();
+  const locale = useLocale();
+  const dir = locale === 'ar' ? 'rtl' : 'ltr';
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const contactSchema = z.object({
+    name: z.string().min(2, t('contact.validation.name_min')),
+    email: z.string().email(t('contact.validation.email_invalid')),
+    subject: z.string().min(5, t('contact.validation.subject_min')),
+    message: z.string().min(10, t('contact.validation.message_min')),
+  });
 
   const {
     register,
@@ -26,23 +28,23 @@ const Contact = () => {
     reset,
     formState: { errors },
   } = useForm<ContactFormData>({
-    resolver: zodResolver(getContactSchema(lang as 'ar' | 'fr')),
+    resolver: zodResolver(contactSchema),
   });
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
-    const loadingToast = toast.loading(lang === 'ar' ? "جاري الإرسال" : "Envoi en cours...");
+    const loadingToast = toast.loading(t('common.loading'));
     
     try {
       const result = await sendEmailAction(data);
       if (result.success) {
-        toast.success(lang === 'ar' ? "تم إرسال رسالتك بنجاح!" : "Votre message a été envoyé avec succès !", { id: loadingToast });
+        toast.success(t('common.success'), { id: loadingToast });
         reset();
       } else {
-        toast.error(lang === 'ar' ? "فشل إرسال الرسالة، حاول مرة أخرى." : "Échec de l'envoi, veuillez réessayer.", { id: loadingToast });
+        toast.error(t('common.error'), { id: loadingToast });
       }
     } catch {
-      toast.error(lang === 'ar' ? "حدث خطأ غير متوقع." : "Une erreur inattendue s'est produite.", { id: loadingToast });
+      toast.error(t('common.unexpected_error'), { id: loadingToast });
     } finally {
       setIsSubmitting(false);
     }
@@ -59,14 +61,14 @@ const Contact = () => {
             viewport={{ once: true }}
           >
             <p className="text-gold font-bold uppercase tracking-[0.3em] text-xs mb-3">
-              {lang === 'ar' ? 'تواصل معنا' : 'Contactez-nous'}
+              {t('contact.title')}
             </p>
             <h2 className="text-5xl md:text-6xl text-primary leading-tight lowercase mb-8">
-              {t.nav.contact}
+              {t('nav.contact')}
             </h2>
             <div className="w-16 h-1 bg-gold/50 mb-10" />
             <p className="text-xl text-gray-500 font-light italic mb-16 max-w-lg leading-relaxed">
-              {lang === 'ar' ? 'نحن هنا للإجابة على جميع استفساراتكم القانونية. لا تترددوا في الاتصال بنا لحجز موعد أو للحصول على استشارة.' : 'Nous sommes là pour répondre à toutes vos questions juridiques. N\'hésitez pas à nous contacter pour prendre rendez-vous ou pour obtenir une consultation.'}
+              {t('contact.description')}
             </p>
             
             <div className="flex flex-col gap-10">
@@ -75,8 +77,8 @@ const Contact = () => {
                   <MapPin size={24} />
                 </div>
                 <div>
-                  <h4 className="font-serif italic text-2xl mb-2 text-primary">{lang === 'ar' ? 'الموقع' : 'Localisation'}</h4>
-                  <p className="text-gray-500 font-light text-lg">{lang === 'ar' ? '56 شارع الإخوة رتال بوفاريك 09400' : '56 rue des freres rettal boufarik 09400'}</p>
+                  <h4 className="font-serif italic text-2xl mb-2 text-primary">{t('contact.location_label')}</h4>
+                  <p className="text-gray-500 font-light text-lg">{t('contact.location_value')}</p>
                 </div>
               </div>
               
@@ -85,7 +87,7 @@ const Contact = () => {
                   <Phone size={24} />
                 </div>
                 <div>
-                  <h4 className="font-serif italic text-2xl mb-2 text-primary">{lang === 'ar' ? 'الهاتف' : 'Ligne Directe'}</h4>
+                  <h4 className="font-serif italic text-2xl mb-2 text-primary">{t('contact.phone_label')}</h4>
                   <p className={`text-gray-500 font-light text-lg ${dir === 'rtl' ? 'text-right' : 'text-left'}`} dir="ltr">0793704284</p>
                 </div>
               </div>
@@ -95,7 +97,7 @@ const Contact = () => {
                   <Mail size={24} />
                 </div>
                 <div>
-                  <h4 className="font-serif italic text-2xl mb-2 text-primary">{lang === 'ar' ? 'البريد الإلكتروني' : 'Email'}</h4>
+                  <h4 className="font-serif italic text-2xl mb-2 text-primary">{t('contact.email_label')}</h4>
                   <p className="text-gray-500 font-light text-lg">mahifares2@gmail.com</p>
                 </div>
               </div>
@@ -105,8 +107,8 @@ const Contact = () => {
                   <Clock size={24} />
                 </div>
                 <div>
-                  <h4 className="font-serif italic text-2xl mb-2 text-primary">{lang === 'ar' ? 'الساعات' : 'Horaires'}</h4>
-                  <p className="text-gray-500 font-light text-lg">{lang === 'ar' ? 'الأحد - الخميس: 09:00 - 17:00' : 'Dimanche - Jeudi: 09h00 - 17h00'}</p>
+                  <h4 className="font-serif italic text-2xl mb-2 text-primary">{t('contact.hours_label')}</h4>
+                  <p className="text-gray-500 font-light text-lg">{t('contact.hours_value')}</p>
                 </div>
               </div>
             </div>
@@ -121,7 +123,7 @@ const Contact = () => {
             <form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'الاسم الكامل' : 'Nom Complet'}</label>
+                  <label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-gray-500">{t('contact.name_label')}</label>
                   <input 
                     id="name"
                     type="text" 
@@ -131,7 +133,7 @@ const Contact = () => {
                   {errors.name && <span className="text-red-500 text-xs">{errors.name.message}</span>}
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="email" className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'البريد الإلكتروني' : 'Email'}</label>
+                  <label htmlFor="email" className="text-xs font-bold uppercase tracking-widest text-gray-500">{t('contact.email_label')}</label>
                   <input 
                     id="email"
                     type="email" 
@@ -142,7 +144,7 @@ const Contact = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <label htmlFor="subject" className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'الموضوع' : 'Objet de la demande'}</label>
+                <label htmlFor="subject" className="text-xs font-bold uppercase tracking-widest text-gray-500">{t('contact.subject_label')}</label>
                 <input 
                   id="subject"
                   type="text" 
@@ -152,7 +154,7 @@ const Contact = () => {
                 {errors.subject && <span className="text-red-500 text-xs">{errors.subject.message}</span>}
               </div>
               <div className="flex flex-col gap-2">
-                <label htmlFor="message" className="text-xs font-bold uppercase tracking-widest text-gray-500">{lang === 'ar' ? 'الرسالة' : 'Message'}</label>
+                <label htmlFor="message" className="text-xs font-bold uppercase tracking-widest text-gray-500">{t('contact.message_label')}</label>
                 <textarea 
                   id="message"
                   rows={4} 
@@ -167,8 +169,8 @@ const Contact = () => {
                 className="group btn-primary !bg-primary !text-white hover:!bg-gold hover:!text-primary !py-5 !justify-center !text-sm !font-bold !uppercase !tracking-[0.4em] mt-6 flex items-center gap-4 disabled:opacity-75 disabled:cursor-not-allowed"
               >
                 {isSubmitting 
-                  ? (lang === 'ar' ? 'جاري الإرسال...' : 'Envoi en cours...') 
-                  : (lang === 'ar' ? 'إرسال الاستفسار' : 'Envoyer la demande')
+                  ? t('common.loading')
+                  : t('common.send')
                 }
                 {!isSubmitting && (
                   <Send size={18} className={`transition-transform flex-shrink-0 ${dir === 'rtl' ? 'scale-x-[-1] group-hover:-translate-x-1' : 'group-hover:translate-x-1'} group-hover:-translate-y-1`} />

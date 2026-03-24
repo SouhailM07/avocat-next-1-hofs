@@ -1,10 +1,11 @@
 "use client";
-import { useLanguage } from '../LanguageContext';
+import { useTranslations, useLocale } from 'next-intl';
 import { motion } from 'framer-motion';
 import { MapPin } from 'lucide-react';
 
 const About = () => {
-  const { lang, t } = useLanguage();
+  const t = useTranslations();
+  const locale = useLocale();
 
   return (
     <section id="about" className="bg-white py-24 md:py-32 overflow-hidden">
@@ -18,33 +19,33 @@ const About = () => {
         >
           <div className="mb-8">
              <p className="text-gold font-bold uppercase tracking-[0.3em] text-xs mb-3">
-                {lang === 'ar' ? 'من هو الأستاذ؟' : 'Qui est Maître?'}
+                {t('about.subtitle')}
              </p>
              <h2 className="text-5xl md:text-6xl text-primary leading-tight lowercase">
-                {t.about.title}
+                {t('about.title')}
              </h2>
           </div>
           
           <div className="w-16 h-1.5 bg-gold/50 mb-10" />
           
           <p className="text-xl text-gray-600 mb-12 leading-[1.8] font-light italic">
-            "{t.about.content}"
+            "{t('about.content')}"
           </p>
           
           <div className="grid grid-cols-2 gap-10">
             <div className="border-l-2 border-gold/20 pl-6 py-2">
                <p className="text-3xl font-serif font-bold text-primary">15+</p>
-               <p className="text-xs uppercase tracking-widest text-gray-500 font-bold">{lang === 'ar' ? 'سنة خبرة' : 'Ans d\'expérience'}</p>
+               <p className="text-xs uppercase tracking-widest text-gray-500 font-bold">{t('common.experience')}</p>
             </div>
             <div className="border-l-2 border-gold/20 pl-6 py-2">
                <p className="text-3xl font-serif font-bold text-primary">500+</p>
-               <p className="text-xs uppercase tracking-widest text-gray-500 font-bold">{lang === 'ar' ? 'قضية ناجحة' : 'Affaires réussies'}</p>
+               <p className="text-xs uppercase tracking-widest text-gray-500 font-bold">{t('common.success_cases')}</p>
             </div>
           </div>
 
           <div className="mt-16 flex items-center gap-4 text-primary font-bold">
              <MapPin size={24} className="text-gold" />
-             <span className="text-lg tracking-tight">{lang === 'ar' ? 'بوفاريك، البليدة' : 'Boufarik, Blida'}</span>
+             <span className="text-lg tracking-tight">{t('common.location')}</span>
           </div>
         </motion.div>
         
