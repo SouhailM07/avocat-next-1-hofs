@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Cairo, Amiri } from "next/font/google";
 import "../globals.css";
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
-import { notFound } from 'next/navigation';
-import { routing } from '@/i18n/routing';
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,22 +28,19 @@ const amiri = Amiri({
   weight: ["400", "700"],
 });
 
+// Static metadata template
 export const metadata: Metadata = {
   title: {
     default: "Cabinet d'Avocat Mahi Fares | Boufarik, Blida",
-    template: "%s | Cabinet d'Avocat Mahi Fares"
+    template: "%s | Cabinet d'Avocat Mahi Fares",
   },
-  description: "Cabinet d'avocat spécialisé à Boufarik, Blida. Prenez rendez-vous avec Maître Mahi Fares pour des conseils juridiques, affaires civiles, et pénales. محامي في بوفاريك.",
-  keywords: ["avocat", "avocat boufarik", "avocat blida", "cabinet avocat", "droit pénal", "droit civil", "محامي", "محامي بوفاريك", "مكتب محاماة بوفاريك", "استشارة قانونية", "Mahi Fares", "avocat algerie", "lawyer algeria"],
+  description:
+    "Cabinet d'avocat spécialisé à Boufarik, Blida. Prenez rendez-vous avec Maître Mahi Fares pour des conseils juridiques, affaires civiles, et pénales. محامي في بوفاريك.",
   authors: [{ name: "Maître Mahi Fares" }],
   creator: "Cabinet Mahi Fares",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   openGraph: {
     type: "website",
-    locale: "fr_FR",
-    alternateLocale: "ar_DZ",
-    title: "Cabinet d'Avocat Mahi Fares | Boufarik",
-    description: "Votre partenaire de confiance pour la défense de vos droits à Boufarik et ses environs. محامي في بوفاريك.",
     siteName: "Cabinet d'Avocat Mahi Fares",
   },
   robots: {
@@ -52,35 +49,43 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
 };
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({locale}));
+  return routing.locales.map((locale) => ({ locale }));
 }
 
 export default async function RootLayout({
   children,
-  params
+  params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: { locale: string };
 }) {
-  const { locale } = await params;
+  const { locale } = params;
 
-  // Ensure that the incoming `locale` is valid
-  if (!routing.locales.includes(locale as any)) {
+  // Validate locale
+  if (!routing.locales.includes(locale)) {
     notFound();
   }
 
-  // Providing all messages to the client
-  // side is the easiest way to get started
-  const messages = await getMessages();
-  const dir = locale === 'ar' ? 'rtl' : 'ltr';
+  // Fetch server-side messages for this locale
+  const messages = await getMessages(locale);
+  const dir = locale === "ar" ? "rtl" : "ltr";
+
+  // Canonical & hreflang URLs
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const canonicalUrl = `${siteUrl}/${locale}`;
+  const alternateLinks = routing.locales.map((l) => ({
+    rel: "alternate",
+    hrefLang: l,
+    href: `${siteUrl}/${l}`,
+  }));
 
   return (
     <html
@@ -88,8 +93,17 @@ export default async function RootLayout({
       dir={dir}
       className={`${geistSans.variable} ${geistMono.variable} ${cairo.variable} ${amiri.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="canonical" href={canonicalUrl} />
+        {alternateLinks.map((link) => (
+          <link key={link.hrefLang} rel="alternate" hrefLang={link.hrefLang} href={link.href} />
+        ))}
+        {/* Preconnect for fonts to improve performance */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      </head>
       <body className="min-h-full flex flex-col overflow-x-hidden">
-        <NextIntlClientProvider messages={messages} locale={locale}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>
       </body>
