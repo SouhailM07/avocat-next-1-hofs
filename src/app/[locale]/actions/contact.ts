@@ -19,7 +19,7 @@ export async function sendEmailAction(data: ContactFormData) {
     const validatedData = contactSchema.parse(data);
 
     // Default target email address
-    const targetEmail = process.env.TARGET_EMAIL || "mahifares2@gmail.com";
+    const targetEmail = process.env.TARGET_EMAIL || "Mahifaresavocat@gmail.com";
     
     // Check ifSMTP is configured
     const hasSmtpConfig = process.env.SMTP_USER && process.env.SMTP_PASS;

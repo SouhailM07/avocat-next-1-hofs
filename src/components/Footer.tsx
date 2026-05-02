@@ -119,7 +119,7 @@ const Footer = () => {
                   {t("footer.email")}
                 </span>
                 <span className="text-xl font-serif italic text-white">
-                  mahifares2@gmail.com
+                  Mahifaresavocat@gmail.com
                 </span>
               </li>
             </ul>
